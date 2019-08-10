@@ -1,0 +1,43 @@
+package add;
+
+import main.Data;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class DataPanel extends JPanel implements ActionListener {
+
+    JTextField label;
+    JButton button;
+
+    int HEIGHT = 50, WIDTH = 500;
+
+    DataPanel() {
+        setPreferredSize(new Dimension(WIDTH,HEIGHT));
+        setLayout(null);
+
+        label = new JTextField();
+        label.setBounds(0,0,400,HEIGHT);
+        add(label);
+
+        button = new JButton("add");
+        button.addActionListener(this);
+        button.setBounds(400,0,100,HEIGHT);
+        button.setBorderPainted(false);
+        button.setFocusPainted(false);
+        button.setBackground(Color.gray);
+        add(button);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String content = label.getText();
+        label.setText("");
+        try {
+            Data.addRemind(content);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+}
