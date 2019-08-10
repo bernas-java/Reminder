@@ -1,0 +1,19 @@
+package add;
+
+import javax.swing.*;
+
+public class AddData extends JFrame {
+
+    public AddData() {
+
+        DataPanel panel = new DataPanel();
+
+        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        add(panel);
+        pack();
+        setVisible(true);
+        setLocationRelativeTo(null);
+        setTitle("New remind");
+
+    }
+}
