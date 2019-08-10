@@ -1,0 +1,38 @@
+package main;
+
+import java.awt.*;
+
+import static main.AppPanel.WIDTH;
+
+public class Remind {
+
+    int height;
+    int odstep = 20;
+    String h1;
+    String content;
+
+    public Remind(int height, String h1, String content) {
+        this.height = height;
+        this.h1 = h1;
+        this.content = content;
+    }
+
+    public void draw(Graphics g) {
+        g.setColor(Color.lightGray);
+        g.fillRect(odstep,70+height,WIDTH-odstep*2,50);
+        g.setColor(Color.BLACK);
+        g.setFont(new Font("Verdana", Font.BOLD, 12));
+        g.drawString(h1,odstep,70+height+10);
+        g.setFont(new Font("Verdana", Font.ITALIC, 12));
+        g.drawString(content,odstep,70+height+30);
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+}
