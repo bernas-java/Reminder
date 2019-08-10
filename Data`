@@ -1,0 +1,79 @@
+package main;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+
+public class Data {
+
+    static BufferedReader bf;
+    static FileWriter fw;
+
+    public static void fileToArr() throws IOException {
+
+        bf = new BufferedReader(new FileReader("data.txt"));
+        String linia = bf.readLine();
+        int height = 0;
+
+        while (linia != null) {
+            AppPanel.reminds.add(new Remind(height,"Przypomnienie",linia));
+            linia = bf.readLine();
+            height += 70;
+        }
+        bf.close();
+
+    }
+
+    public static void addRemind(String content) throws IOException {
+
+        int i = 0;
+        bf = new BufferedReader(new FileReader("data.txt"));
+        String linia = bf.readLine();
+        ArrayList<String> list = new ArrayList<>();
+
+        fw = new FileWriter("data.txt");
+
+        while (linia != null) {
+            list.add(linia);
+            linia = bf.readLine();
+        }
+        bf.close();
+        list.add(content);
+
+        for (String element : list) {
+            fw.write(element+"\n");
+        }
+        fw.close();
+        delArr();
+        fileToArr();
+
+    }
+
+    public static void delReminds() throws IOException {
+        fw = new FileWriter("data.txt");
+        fw.write("");
+        fw.close();
+        delArr();
+        fileToArr();
+    }
+
+    private static void delArr() {
+        AppPanel.reminds.clear();
+    }
+
+
+    public static void scrollUp() {
+        for (Remind remind : AppPanel.reminds) {
+            remind.setHeight(remind.getHeight()-10);
+        }
+    }
+
+    public static void scrollDown() {
+        for (Remind remind : AppPanel.reminds) {
+            remind.setHeight(remind.getHeight()+10);
+        }
+    }
+
+}
