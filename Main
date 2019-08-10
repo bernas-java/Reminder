@@ -1,0 +1,23 @@
+package main;
+
+import javax.swing.*;
+
+public class Main {
+
+    private Main() {
+
+        JFrame jFrame = new JFrame();
+        AppPanel panel = new AppPanel();
+
+        jFrame.setTitle("Reminder");
+        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jFrame.add(panel);
+        jFrame.pack();
+        jFrame.setVisible(true);
+        jFrame.setLocationRelativeTo(null);
+
+    }
+
+    public static void main(String[] args) { new Main(); }
+
+}
