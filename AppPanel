@@ -1,0 +1,139 @@
+package main;
+
+import add.AddData;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.ArrayList;
+
+public class AppPanel extends JPanel implements ActionListener, Runnable, KeyListener {
+
+    AddData gui;
+
+    Thread t;
+
+    public static int view = 0;
+
+    public static final int WIDTH = 500, HEIGHT = 500;
+
+    public static ArrayList<Remind> reminds;
+
+    JButton button;
+
+    public AppPanel() {
+        setFocusable(true);
+
+        setLayout(null);
+        addKeyListener(this);
+
+        setPreferredSize(new Dimension(WIDTH,HEIGHT));
+        reminds = new ArrayList<>();
+
+        button = new JButton("add");
+        button.addActionListener(this);
+        button.setBounds(WIDTH-60,HEIGHT-30,60,30);
+        button.setOpaque(false);
+        button.setContentAreaFilled(false);
+        button.setBorderPainted(false);
+        add(button);
+
+        try {
+            Data.fileToArr();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        start();
+
+    }
+
+    private void start() {
+        try {
+            t = new Thread(this);
+            t.start();
+        } catch (Exception ex) {
+            System.out.println("Nie udało się uruchomić wątku");
+        }
+    }
+
+    public void paint(Graphics g) {
+
+        g.setColor(new Color(50, 50, 50));
+        g.fillRect(0,50,WIDTH,HEIGHT);
+        g.setColor(new Color(80,80,80));
+        g.fillRect(WIDTH-60,HEIGHT-30,60,30);
+        g.setColor(new Color(40, 40, 40));
+        g.setFont(new Font("Arial", Font.BOLD, 12));
+        g.drawString("add",WIDTH-40,HEIGHT-10);
+
+        for (Remind remind : reminds) {
+            remind.draw(g);
+        }
+
+        paint2(g);
+
+    }
+
+    private void paint2(Graphics g) {
+        g.setColor(new Color(50, 50, 50));
+        g.fillRect(0,0,WIDTH,50);
+        g.setColor(Color.white);
+        g.setFont(new Font("Verdana", Font.ITALIC, 27));
+        g.drawString("Reminder",WIDTH/2-65,35);
+        g.drawLine(0,50,WIDTH,50);
+    }
+
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        gui = new AddData();
+    }
+
+    @Override
+    public void run() {
+        while(true) {
+            try {
+                Thread.sleep(200);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            repaint();
+        }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+        int key = e.getKeyCode();
+        if (key == 109 && view != 0) {
+            Data.scrollDown();
+            view--;
+        }
+        if (key == 107 && view != 26) {
+            Data.scrollUp();
+            view++;
+        }
+        if (key == 127) {
+            try {
+                Data.delReminds();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
+    }
+}
